@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "[Service] MBInfo - Privileged",
+            "type": "python",
+            "request": "launch",
+            "module": "assemblyline_v4_service.run_privileged_service",
+            "env": {
+                "SERVICE_MANIFEST_PATH": "service_manifest.yml",
+                "PRIVILEGED": "true",
+                "SERVICE_PATH": "mbinfo.MBInfo",
+                "TASKING_DIR": "/tmp/MBInfo"
+            },
+            "console": "internalConsole",
+            "cwd": "${workspaceFolder}/assemblyline-training-first2023/mbinfo"
+        }
+    ]
+}
