@@ -19,6 +19,8 @@ Once the script is done and you accepted to reboot, clone this repository in you
 ```bash
 cd ~/git/alv4
 git clone https://github.com/CybercentreCanada/assemblyline-training-first2023.git assemblyline-training-first2023
+# Overwrite the default launch configuration with one specific for First 2023
+cp ~/git/alv4/assemblyline-training-first2023/.vscode/launch.json ~/git/alv4/.vscode/
 ```
 Launch VSCode, install the recommended extensions when prompted or by typing '@recommended' in the Extensions tab.
 ```bash

@@ -26,7 +26,9 @@ You will find four files in a folder named `mbinfo`.
 # Execution and debugging
 The easiest way and fastest way to execute your module on a file is to use run_service_once:
 ```bash
-cd ~/git/alv4/assemblyline-training-first2023/mbinfo
+cd ~/git/alv4
+source venv/bin/activate
+cd assemblyline-training-first2023/mbinfo
 python -m assemblyline_v4_service.dev.run_service_once mbinfo.MBInfo ../samples/d3d3facae5e604eded7bf28b146dff57334aa0d9691f1f32eb6f0a30f819bcb8.cart
 ```
 
@@ -68,7 +70,7 @@ from assemblyline_v4_service.common.result import (
 # [...]
         text_res = ResultTextSection("Comment")
         text_res.add_line(response["data"][0]["comment"])
-        request.result.add_section(text_res) # Instead of parent=request.result
+        request.result.add_section(text_res)  # Instead of parent=request.result
 ```
 
 Add the family as a tag on the ResultSection
@@ -194,6 +196,7 @@ docker-compose -f docker-compose-sca-upd.yml up -d --wait
 
 Build a docker container and push it to the local dev registry
 ```bash
+cd ~/git/alv4/assemblyline-training-first2023/mbinfo
 docker build --build-arg branch=stable --build-arg version=4.4.0.dev0 -t 127.0.0.1:32000/first/assemblyline-service-mbinfo:4.4.0.dev0 .
 docker push 127.0.0.1:32000/first/assemblyline-service-mbinfo:4.4.0.dev0
 ```
