@@ -27,7 +27,7 @@ NOTIFICATION_QUEUE_NAME = "CHANGE_THIS"
 
 
 # Receive completion messages from the notification queue
-# client.ingest.get_message_list --> /api/v4/ingest/get_message_list/nq_name/
+# client.ingest.get_message_list --> /api/v4/ingest/get_message_list/<NOTIFICATION_QUEUE_NAME>/
 while len(files_to_scan) != 0:
     for result in client.ingest.get_message_list(NOTIFICATION_QUEUE_NAME):
         # This is the file we are receiveing result for
