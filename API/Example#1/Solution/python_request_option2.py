@@ -27,8 +27,7 @@ host = f"https://{os.getenv('AL_HOST', 'localhost')}:443"
 
 # Option 2: Get IOCs from the ontology API
 # client.ontology.submission --> /api/v4/ontology/submission/<sid>/
-data = requests.get(f"{host}/api/v4/ontology/submission/{SID}/",
-                    headers=headers, verify=False).content
+data = requests.get(f"{host}/api/v4/ontology/submission/{SID}/", headers=headers, verify=False).content
 ontology = [json.loads(line) for line in data.splitlines()]
 for record in ontology:
     for tag_name, tag_values in record['results']['tags'].items():
