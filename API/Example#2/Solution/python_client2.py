@@ -21,7 +21,7 @@ os.makedirs(OUTPUT_DIRECTORY, exist_ok=True)
 client = get_client(f"https://{AL_HOST}:443", apikey=(AL_USER, AL_APIKEY), verify=False)
 
 # For all submissions that are over the file score threshold
-# client.search.stream.submission --> /api/v4/search/index/?deep_paging_id=*
+# client.search.stream.submission --> /api/v4/search/submission/?deep_paging_id=*
 for record in client.search.stream.submission(query=f"max_score:>={FILE_SCORE_THRESHOLD}", fl='sid'):
     sid = record['sid']
 

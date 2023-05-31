@@ -34,10 +34,10 @@ while len(files_to_scan) != 0:
         current_file = result['submission']['metadata']['file_path']
 
         # For each completetion message, pull the result record to get the score
-        submisison = client.submission(result['submission']['sid'])
+        submission = client.submission(result['submission']['sid'])
 
         # Print file score to screen
-        print(current_file, "=", submisison['max_score'])
+        print(current_file, "=", submission['max_score'])
 
         # Stop waiting for the file
         files_to_scan.remove(current_file)
