@@ -8,6 +8,7 @@
 # }
 
 import requests
+import json
 import os
 from pprint import pprint
 
@@ -18,7 +19,7 @@ headers = {
 }
 
 # This is the submission ID that we will use to pull IOCs from
-SID = 'XXXXXXX'
+SID = '1nAXRc365frBiSXKg0qX0Q'
 
 # The result of this exercise will be stored in this variable
 COLLECTED_IOCS = dict()
@@ -29,6 +30,7 @@ host = f"https://{os.getenv('AL_HOST', 'localhost')}:443"
 
 # Option 1: Get IOCs for the submission summary API
 # client.submission.summary --> /api/v4/submission/summary/<sid>/
+
 
 # Option 2: Get IOCs from the ontology API
 # client.ontology.submission --> /api/v4/ontology/submission/<sid>/

@@ -17,13 +17,13 @@ AL_APIKEY = os.getenv('AL_APIKEY', 'devkey:admin')
 
 
 # This is the submission ID that we will use to pull IOCs from
-SID = 'XXXXXXX'
+SID = '1nAXRc365frBiSXKg0qX0Q'
 
 # The result of this exercise will be stored in this variable
 COLLECTED_IOCS = dict()
 
 # This is the connection to the Assemblyline client that we will use
-client = get_client(f"https://{AL_HOST}:443", apikey=(AL_USER, AL_APIKEY))
+client = get_client(f"https://{AL_HOST}:443", apikey=(AL_USER, AL_APIKEY), verify=False)
 
 
 # Option 1: Get IOCs for the submission summary API
