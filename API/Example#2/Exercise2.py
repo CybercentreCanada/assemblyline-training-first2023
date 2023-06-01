@@ -1,20 +1,30 @@
-#Exercise #2: Performing Filtered File Collection
+# Exercise #2: Performing Filtered File Collection
 
-# Download file(s) with a certain score
+# Download all files from assemblyline that scored over 2000 and
+# store these files as cart so they don't trigger AV
 
-# Filter for submissions that exceed a certain score 
-SUBMISSION_MAX_SCORE_MINIMUM = 1000 
-# Filter for files within a submission that exceed a certain score 
-FILE_SCORE_THRESHOLD = 500 
+import os
+from assemblyline_client import get_client
+
+AL_HOST = os.getenv('AL_HOST', 'ec2-3-98-100-58.ca-central-1.compute.amazonaws.com')
+AL_USER = os.getenv('AL_USER', 'first')
+AL_APIKEY = os.getenv('AL_APIKEY', 'RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6')
+
+# Filter for files within a submission that exceed a certain score
+FILE_SCORE_THRESHOLD = 8000
+
 # Download files that meet the FILE_SCORE_THRESHOLD into this directory
-OUTPUT_DIRECTORY = '/tmp/'
+OUTPUT_DIRECTORY = '/tmp/ex2'
+os.makedirs(OUTPUT_DIRECTORY, exist_ok=True)
 
-# Grab a submission with certain overall max score
-#client.search.submission --> /api/v4/search/index/
+# This is the connection to the Assemblyline client that we will use
+client = get_client(f"https://{AL_HOST}:443", apikey=(AL_USER, AL_APIKEY), verify=False)
 
-# Get the SHA256 of every file associated to the submission
-#client.submission.full --> /api/v4/submission/full/sid/
-#client.submission.file --> /api/v4/submission/sid/file/sha256/
+# For all submissions that are over the file score threshold
+# client.search.stream.submission --> /api/v4/search/submission/?deep_paging_id=*
 
-# If file score is greater than threshold, download in cARTed format
-#client.file.download --> /api/v4/file/download/sha256?encoding=cart/
+# Download the full submission result and compute the score for each file
+# client.submission.full --> /api/v4/submission/full/sid/
+
+# For each files where the score is greater than threshold, download in cARTed format
+# client.file.download --> /api/v4/file/download/sha256?encoding=cart/

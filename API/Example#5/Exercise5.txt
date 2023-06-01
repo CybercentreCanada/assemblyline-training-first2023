@@ -1,4 +1,0 @@
-Exercise #4: Ingest files through Ingest/Submit API without the client
-
-client.ingest --> /api/v4/ingest/
-client.submit --> /api/v4/submit/

@@ -1,107 +1,54 @@
-#Exercise #2: Performing Filtered File Collection
+# Exercise #2: Performing Filtered File Collection
 
-#client.search.submission --> /api/v4/search/index/ --> curl -X POST -d json_dict -H  header_string_with_content https://endpoint/api/v4/search/index/
-#client.submission.full --> /api/v4/submission/full/sid/ --> curl -H  header_string https://endpoint/api/v4/submission/full/sid/
-#client.submission.file --> /api/v4/submission/sid/file/sha256/ --> curl -H  header_string https://endpoint/api/v4/submission/sid/file/sha256/
-#client.file.download --> /api/v4/file/download/sha256?encoding=cart/ --> curl -H  header_string https://endpoint/api/v4/file/download/sha256?encoding=cart
+# Download all files from assemblyline that scored over 2000 and
+# store these files as cart so they don't trigger AV
 
 import requests
-import socket
-import time
-import json
 import os
-import urllib3
-from dotenv import dotenv_values
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-config = dict()
-config["DOMAIN"] = "localhost" 
-config["PORT"] = "443"
-config["USERNAME"] = "admin"
-config["KEY"] = "<key_name:randomly_generated_password>"
 
-auth_header_with_content = {
-    "x-user": config["USERNAME"],
-    "x-apikey": config["KEY"],
-    "accept": "application/json",
-    "content-type": "application/json"
-}
-auth_header = {
-    "x-user": config["USERNAME"],
-    "x-apikey": config["KEY_STG"],
-    "accept": "application/json",
+headers = {
+    "x-user": os.getenv('AL_USER', 'first'),
+    "x-apikey": os.getenv('AL_APIKEY', 'RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6'),
+    "accept": "application/json"
 }
 
-def API_request(method,resource_path,body=None,headers=None,files=None):
-    retry_counter = 0
-    if method == "POST":
-        while retry_counter < 5:
-            try:
-                response = requests.post('https://%s:%s%s' %(config["DOMAIN"],config["PORT"],resource_path),headers=headers,data=body,files=files,verify=False)
-            except requests.exceptions.HTTPError as err:
-                raise SystemExit(err)
-            except requests.exceptions.RequestException as err:
-                raise SystemExit(err)
-            except socket.error as error:
-                print("Connection Failed due to socket - {}").format(error)
-                print("Attempting %d of 5" % retry_counter)
-                time.sleep(3)
-                retry_counter  += 1
-            else:
-                return response
-    elif method == "GET":
-        while retry_counter < 5:
-            try:
-                response = requests.get('https://%s:%s%s' %(config["DOMAIN"],config["PORT"],resource_path),headers=headers,data=body,verify=False)
-            except requests.exceptions.HTTPError as err:
-                raise SystemExit(err)
-            except requests.exceptions.RequestException as err:
-                raise SystemExit(err)
-            except socket.error as error:
-                print("Connection Failed due to socket - {}").format(error)
-                print("Attempting %d of 5" % retry_counter)
-                time.sleep(3)
-                retry_counter  += 1
-            else:
-                return response
-            
-def search(index,query="",fields="id,score",rows=100,sort="field asc",headers=None):
-    data = {
-        "query": query,
-        "offset": 0,  
-        "rows": rows,
-        "sort": sort,
-        "fl": fields,
-        "timeout": 1000,
-        "filters": ['fq']
-    }
-    #CURL equivalent : curl -X POST -d json_dict -H  header_string https://endpoint/api/v4/search/%s/
-    return API_request(method="POST",resource_path="/api/v4/search/%s/" % index,body=json.dumps(data),headers=headers)
+# Filter for files within a submission that exceed a certain score
+FILE_SCORE_THRESHOLD = 8000
 
-# Download file(s) with a certain score
+# Download files that meet the FILE_SCORE_THRESHOLD into this directory
+OUTPUT_DIRECTORY = '/tmp/ex2'
+os.makedirs(OUTPUT_DIRECTORY, exist_ok=True)
 
-# Filter for submissions that exceed a certain score 
-SUBMISSION_MAX_SCORE_MINIMUM = 1000
-# Filter for files within a submission that exceed a certain score 
-FILE_SCORE_THRESHOLD = 500 
+# This is the connection to the Assemblyline client that we will use
+host = f"https://{os.getenv('AL_HOST', 'ec2-3-98-100-58.ca-central-1.compute.amazonaws.com')}:443"
 
-# Grab a submission with certain overall max score
-sid = search(index="submission",query=f"state:completed AND max_score:>{SUBMISSION_MAX_SCORE_MINIMUM}", fields='sid',rows=1,sort="times.completed desc",headers=auth_header_with_content).json()["api_response"]["items"][0]["sid"]
-# Get the SHA256 of every file associated to the submission
-#CURL equivalent :curl -H  header_string https://endpoint/api/v4/submission/full/%s/
-full = API_request(method="GET",resource_path="/api/v4/submission/full/%s/" % sid,headers=auth_header).json()["api_response"]
-for sha256 in list(full['file_infos'].keys()):
-    # Compute the file's score relevant to the submission context
-    file_score = 0
-    #CURL equivalent :curl -H  header_string https://endpoint/api/v4/submission/%s/file/%s/
-    file = API_request(method="GET",resource_path="/api/v4/submission/%s/file/%s/" % (sid,sha256),headers=auth_header).json()["api_response"]
-    for result in file['results']:
-        result = result['result']
-        file_score += result['score']
-        
-    # If file score is greater than threshold, download in cARTed format
-    if file_score >= FILE_SCORE_THRESHOLD:
-        file = open('%s.cart' % sha256, 'wb')
-        #CURL equivalent :curl -H  header_string https://endpoint/api/v4/file/download/%s?encoding=cart
-        raw_file = API_request(method="GET",resource_path="/api/v4/file/download/%s?encoding=cart" % sha256,headers=auth_header)
-        file.write(raw_file)
-        file.close()
+# For all submissions that are over the file score threshold
+# client.search.stream.submission --> /api/v4/search/submission/
+# ** NOTE: this works for the purpose of this demo but in real life you'd have to
+#          keep track of the deep_paging_id in a while loop.
+data = requests.get(f"{host}/api/v4/search/submission/?fl=sid&query=max_score:>={FILE_SCORE_THRESHOLD}",
+                    headers=headers, verify=False).json()['api_response']['items']
+
+for submission in data:
+    # Download the full submission result and compute the score for each file
+    # client.submission.full --> /api/v4/submission/full/sid/
+    submission_results = requests.get(f"{host}/api/v4/submission/full/{submission['sid']}/",
+                                      headers=headers, verify=False).json()['api_response']
+
+    # Compute the score of each files in the submission
+    files_scores = dict()
+    for result in submission_results['results'].values():
+        # Initialize the default score for the file if the file is not in the list
+        files_scores.setdefault(result['sha256'], 0)
+
+        # Add the score of the result record to the file
+        files_scores[result['sha256']] += result['result']['score']
+
+    # For each files where the score is greater than threshold, download in cARTed format
+    # client.file.download --> /api/v4/file/download/sha256?encoding=cart/
+    for sha256, score in files_scores.items():
+        if score >= FILE_SCORE_THRESHOLD:
+            with open(os.path.join(OUTPUT_DIRECTORY, f"{sha256}.cart"), 'wb') as file:
+                raw_file = requests.get(f"{host}/api/v4/file/download/{sha256}/?encoding=cart",
+                                        headers=headers, verify=False).content
+                file.write(raw_file)
