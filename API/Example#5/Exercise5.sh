@@ -1,7 +1,7 @@
 #!/bin/bash
 # Exercise #5: Ingest files through Ingest/Submit API using CURL
 
-export AL_HOST=ec2-15-223-69-3.ca-central-1.compute.amazonaws.com
+export AL_HOST=ec2-3-98-100-58.ca-central-1.compute.amazonaws.com
 export AL_USER=first
 export AL_APIKEY=RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6
 

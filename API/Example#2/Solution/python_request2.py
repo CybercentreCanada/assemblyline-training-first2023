@@ -20,7 +20,7 @@ OUTPUT_DIRECTORY = '/tmp/ex2'
 os.makedirs(OUTPUT_DIRECTORY, exist_ok=True)
 
 # This is the connection to the Assemblyline client that we will use
-host = f"https://{os.getenv('AL_HOST', 'ec2-15-223-69-3.ca-central-1.compute.amazonaws.com')}:443"
+host = f"https://{os.getenv('AL_HOST', 'ec2-3-98-100-58.ca-central-1.compute.amazonaws.com')}:443"
 
 # For all submissions that are over the file score threshold
 # client.search.stream.submission --> /api/v4/search/submission/

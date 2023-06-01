@@ -6,7 +6,7 @@ from time import sleep
 
 from assemblyline_client import get_client
 
-AL_HOST = os.getenv('AL_HOST', 'ec2-15-223-69-3.ca-central-1.compute.amazonaws.com')
+AL_HOST = os.getenv('AL_HOST', 'ec2-3-98-100-58.ca-central-1.compute.amazonaws.com')
 AL_USER = os.getenv('AL_USER', 'first')
 AL_APIKEY = os.getenv('AL_APIKEY', 'RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6')
 
