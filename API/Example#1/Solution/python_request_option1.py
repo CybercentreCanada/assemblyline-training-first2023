@@ -6,8 +6,8 @@ import os
 from pprint import pprint
 
 headers = {
-    "x-user": os.getenv('AL_USER', 'admin'),
-    "x-apikey": os.getenv('AL_APIKEY', 'devkey:admin'),
+    "x-user": os.getenv('AL_USER', 'first'),
+    "x-apikey": os.getenv('AL_APIKEY', 'RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6'),
     "accept": "application/json"
 }
 
@@ -18,7 +18,7 @@ SID = '1nAXRc365frBiSXKg0qX0Q'
 COLLECTED_IOCS = dict()
 
 # This is the connection to the Assemblyline client that we will use
-host = f"https://{os.getenv('AL_HOST', 'localhost')}:443"
+host = f"https://{os.getenv('AL_HOST', 'ec2-15-223-69-3.ca-central-1.compute.amazonaws.com')}:443"
 
 
 # Option 1: Get IOCs for the submission summary API

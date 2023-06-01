@@ -3,9 +3,9 @@
 import os
 from assemblyline_client import get_client
 
-AL_HOST = os.getenv('AL_HOST', 'localhost')
-AL_USER = os.getenv('AL_USER', 'admin')
-AL_APIKEY = os.getenv('AL_APIKEY', 'devkey:admin')
+AL_HOST = os.getenv('AL_HOST', 'ec2-15-223-69-3.ca-central-1.compute.amazonaws.com')
+AL_USER = os.getenv('AL_USER', 'first')
+AL_APIKEY = os.getenv('AL_APIKEY', 'RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6')
 
 # This is the connection to the Assemblyline client that we will use
 client = get_client(f"https://{AL_HOST}:443", apikey=(AL_USER, AL_APIKEY), verify=False)

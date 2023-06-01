@@ -6,12 +6,12 @@
 import os
 from assemblyline_client import get_client
 
-AL_HOST = os.getenv('AL_HOST', 'localhost')
-AL_USER = os.getenv('AL_USER', 'admin')
-AL_APIKEY = os.getenv('AL_APIKEY', 'devkey:admin')
+AL_HOST = os.getenv('AL_HOST', 'ec2-15-223-69-3.ca-central-1.compute.amazonaws.com')
+AL_USER = os.getenv('AL_USER', 'first')
+AL_APIKEY = os.getenv('AL_APIKEY', 'RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6')
 
 # Filter for files within a submission that exceed a certain score
-FILE_SCORE_THRESHOLD = 2000
+FILE_SCORE_THRESHOLD = 8000
 
 # Download files that meet the FILE_SCORE_THRESHOLD into this directory
 OUTPUT_DIRECTORY = '/tmp/ex2'

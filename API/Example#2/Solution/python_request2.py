@@ -7,20 +7,20 @@ import requests
 import os
 
 headers = {
-    "x-user": os.getenv('AL_USER', 'admin'),
-    "x-apikey": os.getenv('AL_APIKEY', 'devkey:admin'),
+    "x-user": os.getenv('AL_USER', 'first'),
+    "x-apikey": os.getenv('AL_APIKEY', 'RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6'),
     "accept": "application/json"
 }
 
 # Filter for files within a submission that exceed a certain score
-FILE_SCORE_THRESHOLD = 2000
+FILE_SCORE_THRESHOLD = 8000
 
 # Download files that meet the FILE_SCORE_THRESHOLD into this directory
 OUTPUT_DIRECTORY = '/tmp/ex2'
 os.makedirs(OUTPUT_DIRECTORY, exist_ok=True)
 
 # This is the connection to the Assemblyline client that we will use
-host = f"https://{os.getenv('AL_HOST', 'localhost')}:443"
+host = f"https://{os.getenv('AL_HOST', 'ec2-15-223-69-3.ca-central-1.compute.amazonaws.com')}:443"
 
 # For all submissions that are over the file score threshold
 # client.search.stream.submission --> /api/v4/search/submission/

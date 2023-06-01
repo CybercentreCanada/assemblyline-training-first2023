@@ -1,9 +1,9 @@
 #!/bin/bash
 # Exercise #5: Ingest files through Ingest/Submit API using CURL
 
-export AL_HOST=localhost
-export AL_USER=admin
-export AL_APIKEY=devkey:admin
+export AL_HOST=ec2-15-223-69-3.ca-central-1.compute.amazonaws.com
+export AL_USER=first
+export AL_APIKEY=RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6
 
 # CURL cheat sheet
 #  to pass headers: -H 'key: value'

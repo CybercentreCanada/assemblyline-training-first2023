@@ -6,9 +6,9 @@ from time import sleep
 
 from assemblyline_client import get_client
 
-AL_HOST = os.getenv('AL_HOST', 'localhost')
-AL_USER = os.getenv('AL_USER', 'admin')
-AL_APIKEY = os.getenv('AL_APIKEY', 'devkey:admin')
+AL_HOST = os.getenv('AL_HOST', 'ec2-15-223-69-3.ca-central-1.compute.amazonaws.com')
+AL_USER = os.getenv('AL_USER', 'first')
+AL_APIKEY = os.getenv('AL_APIKEY', 'RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6')
 
 # Files within this directory will be ingested to Assemblyline
 #  ** Let's just reuse the files from exercise 2
