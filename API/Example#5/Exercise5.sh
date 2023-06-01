@@ -3,7 +3,7 @@
 
 export AL_HOST=ec2-3-98-100-58.ca-central-1.compute.amazonaws.com
 export AL_USER=first
-export AL_APIKEY=RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6
+export AL_APIKEY="RW:60AAb)oviu!JgrD33pz3jpkX?hLY?CEw@AyYd(dMsv2qfEJ6"
 
 # CURL cheat sheet
 #  to pass headers: -H 'key: value'
